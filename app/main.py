@@ -1,14 +1,22 @@
 from fastapi import FastAPI
 from datetime import datetime
-import logging
-
+from app.core.logging import logger
+from app.database.models import Base
+from app.database.database import engine
 app = FastAPI()
+
+#create table
+
+Base.metadata.create_all(bind=engine)
+
 
 @app.get("/health")
 
 def health_check():
-    logging.info("Health check endpoint called")
+    logger.info("Health endpoint called")
     return { "status": "healthy" , "service": "AI Operations Automation Platform", "version": "0.0.1", "timestamp": datetime.utcnow().isoformat()}
 
 
-logging.info("Health check successful!")
+#logger.info("Health check successful!")
+
+
